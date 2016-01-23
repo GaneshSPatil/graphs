@@ -2,6 +2,24 @@ var graphs=require('../lib/graph');
 var assert=require('chai').assert;
 var ld=require('lodash');
 
+var denseGraph=function() {
+	var g=new graphs.DirectedGraph();
+	var vertices=['A','B','C','D','E','F','G','H','I','J'];
+
+	vertices.forEach(function(vertex){
+		g.addVertex(vertex);
+	});
+
+	for (var i = 0; i < vertices.length-1; i++) {
+		var from=vertices[i];
+		for (var j = i+1; j < vertices.length; j++) {
+			g.addEdge(from,vertices[j]);
+			g.addEdge(vertices[j],from);
+		}
+	}
+	return g;
+}
+
 describe("add Edges",function(){
 	it("should be able to determine if an edge is present",function(){
 		var g=new graphs.DirectedGraph();
@@ -228,5 +246,10 @@ describe("multiple paths",function(){
 			return ld.isEqual(path,['A','B','C']) || ld.isEqual(path,['A','B','D','C']);
 		});
 		assert.ok(pathContained);
+	});
+	it("should determine all paths between two vertices in a dense graph",function(){
+		var dense=denseGraph();
+		var paths=dense.allPaths('A','B');
+		assert.equal(109601,paths.length);
 	});
 });
