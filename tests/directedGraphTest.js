@@ -194,7 +194,7 @@ describe("paths",function(){
 describe("multiple paths",function(){
 	var g;
 	beforeEach(function(){
-		g=new graphs.UndirectedGraph();
+		g=new graphs.DirectedGraph();
 		g.addVertex('A');
 		g.addVertex('B');
 		g.addVertex('C');
